@@ -715,14 +715,14 @@ figcaption { font-size: 0.95rem; }
   color: var(--canyon-earth);
 }
 
-.hierarchy {
+.hierarchy, .lineage {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
   margin: 1rem auto 1rem !important;
   max-width: var(--measure-wide) !important;
 }
-.hierarchy thead th {
+.hierarchy thead th, .lineage thead th {
   text-align: left;
   border-bottom: 2px solid var(--san-gorgonio);
   font-family: var(--sans);
@@ -733,18 +733,18 @@ figcaption { font-size: 0.95rem; }
   padding: 0.6rem 0.75rem;
   color: var(--ink-soft);
 }
-.hierarchy tbody th, .hierarchy tbody td {
+.hierarchy tbody th, .hierarchy tbody td, .lineage tbody th, .lineage tbody td {
   text-align: left;
   padding: 0.65rem 0.75rem;
   border-bottom: 1px solid var(--rule);
 }
-.hierarchy tbody th {
+.hierarchy tbody th, .lineage tbody th {
   font-family: var(--sans);
   font-weight: 700;
   color: var(--san-gorgonio);
   width: 28%;
 }
-.hierarchy tbody td { font-family: var(--sans); }
+.hierarchy tbody td, .lineage tbody td { font-family: var(--sans); }
 
 /* -- VOICE Section --------------------------------------- */
 .voice-grid {
