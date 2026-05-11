@@ -970,6 +970,26 @@ figcaption { font-size: 0.95rem; }
   margin: 0.15rem 0 !important;
 }
 
+.resource-list .note {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.library-address {
+  font-family: var(--serif-text);
+  font-style: normal;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin: 1rem 0 2rem;
+  color: var(--ink);
+}
+.library-address a {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}
+
 /* -- COLOPHON / FOOTER ---------------------------------- */
 .colophon {
   border-top: 1px solid var(--rule);
