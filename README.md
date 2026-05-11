@@ -60,6 +60,5 @@ The page is print-styled for US Letter portrait with 0.65 in margins. Each chapt
 ## Credits
 
 - **Brand & manual design:** Steven Brown — steven@stevenbrown.design
-- **Brand manager:** Julia Schumacher, Public Services Manager, Beaumont Library District — julia.schumacher@mybld.org
+- **Brand manager & logo SVG production:** Julia Schumacher, Public Services Manager, Beaumont Library District — julia.schumacher@mybld.org
 - **Director · final approvals:** Kelly Van Valkenburg, Beaumont Library District
-- **Logo SVG production:** Julia Schumacher

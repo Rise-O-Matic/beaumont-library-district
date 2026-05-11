@@ -1086,7 +1086,8 @@ figcaption { font-size: 0.95rem; }
   .logo-stage { background: #fff !important; border: 1px solid var(--rule); }
   .logo-stage-dark { background: var(--san-gorgonio) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  .swatches, .swatches-ext, .logo-variants, .pairings, .voice-grid, .rules-grid, .checklist-wrap, .apps-grid, .contact-grid, .principles {
+  .swatches, .swatches-ext, .logo-variants, .pairings, .voice-grid, .rules-grid, .checklist-wrap, .apps-grid, .contact-grid, .principles,
+  .font-spec, .hierarchy, .lineage {
     page-break-inside: avoid;
   }
 
