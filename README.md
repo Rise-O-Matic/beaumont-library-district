@@ -7,7 +7,7 @@ It collects the District's logo system, color palette, typography, voice, imager
 ## Stack
 
 - Plain HTML, CSS, and a single small JS file. No build step, no dependencies, no framework.
-- Type loaded from Google Fonts (DM Serif Display, DM Serif Text, Libre Franklin).
+- Type loaded from Google Fonts (DM Serif Display, DM Serif Text, Libre Franklin, News Cycle).
 - Logo suite copied directly into `assets/logos/` as SVG and transparent PNG.
 
 ```
@@ -60,5 +60,6 @@ The page is print-styled for US Letter portrait with 0.65 in margins. Each chapt
 ## Credits
 
 - **Brand & manual design:** Steven Brown — steven@stevenbrown.design
-- **Logo SVG production:** Julia Schumacher, Beaumont Library District
-- **Brand steward:** Kelly Van Valkenburg, Director
+- **Brand manager:** Julia Schumacher, Public Services Manager, Beaumont Library District — julia.schumacher@mybld.org
+- **Director · final approvals:** Kelly Van Valkenburg, Beaumont Library District
+- **Logo SVG production:** Julia Schumacher
