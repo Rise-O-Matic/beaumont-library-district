@@ -31,6 +31,7 @@
   --serif:               "DM Serif Display", "DM Serif Text", "Times New Roman", serif;
   --serif-text:          "DM Serif Text", "Times New Roman", serif;
   --sans:                "Libre Franklin", "Helvetica Neue", system-ui, sans-serif;
+  --sans-compact:        "News Cycle", "Libre Franklin", "Helvetica Neue", system-ui, sans-serif;
   --mono:                ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   --measure:             68ch;
