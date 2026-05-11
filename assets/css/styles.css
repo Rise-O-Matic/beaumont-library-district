@@ -932,7 +932,7 @@ figcaption { font-size: 0.95rem; }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   max-width: var(--measure-wide) !important;
   margin: 1.5rem auto !important;
