@@ -101,17 +101,6 @@
       object-fit: contain;
     }
 
-    .front-tagline {
-      font-family: 'Libre Franklin', sans-serif;
-      font-weight: 300;
-      font-size: 1.05rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      margin-top: 1.8rem;
-      position: relative;
-      z-index: 1;
-    }
-
     .front-rule {
       width: 68px;
       height: 3px;
@@ -333,7 +322,6 @@
         height: calc(92vw / 1.75);
       }
       .front-logo { width: 55vw; }
-      .front-tagline { font-size: 0.825rem; }
       .back-content { padding: 1.5rem 1.8rem; gap: 1.2rem; }
       .back-name { font-size: 1.65rem; }
       .back-identity { left: 1.8rem; padding-right: 1.2rem; width: 200px; }
@@ -814,7 +802,6 @@
         <div class="card-face card-front" id="custom-front">
           <div class="accent-strip" id="custom-strip"></div>
           <img class="front-logo" id="custom-front-logo" src="BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/San Gorgonio Blue.png" alt="Beaumont Library District">
-          <div class="front-tagline" id="custom-tagline">Knowledge &middot; Community &middot; Discovery</div>
           <hr class="front-rule" id="custom-rule">
           <div class="wave-bottom"><svg viewBox="0 0 700 87" preserveAspectRatio="none"><path id="custom-wave1" d="M0,40 C120,60 200,20 350,35 C500,50 600,22 700,35 L700,87 L0,87 Z"/><path id="custom-wave2" d="M0,52 C150,38 250,62 400,45 C550,28 650,55 700,45 L700,87 L0,87 Z"/></svg></div>
         </div>
@@ -845,10 +832,6 @@
               <div class="contact-item">
                 <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
                 <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.mybld.org</a></div>
-              </div>
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <div class="contact-text"><span class="contact-label">Hours</span>Mon, Tue, Thu, Fri: 10am–5pm<br>Wed, Sat, Sun: 1pm–5pm</div>
               </div>
             </div>
           </div>
@@ -1034,7 +1017,6 @@ function applyState() {
   document.getElementById('custom-front').style.background = bgOpt.bg;
   document.getElementById('custom-strip').style.background = `linear-gradient(90deg, ${fc1}, ${lighten(fc1,40)}, ${fc2}, ${lighten(fc2,40)}, ${fc1})`;
   document.getElementById('custom-rule').style.background = `linear-gradient(90deg, ${fc1}, ${fc2})`;
-  document.getElementById('custom-tagline').style.color = isDark ? lighten(fc2, 80) : fc2;
 
   // Front logo
   const logoFile = isDark ? 'White' : (LOGO_MAP[state.frontLogo] || state.frontLogo);
@@ -1128,7 +1110,6 @@ function applyStateToCard(cardEl, s, text) {
   front.style.background = bgOpt.bg;
   cardEl.querySelector('.saved-flip-front .accent-strip').style.background = `linear-gradient(90deg, ${fc1}, ${lighten(fc1,40)}, ${fc2}, ${lighten(fc2,40)}, ${fc1})`;
   cardEl.querySelector('.saved-flip-front .front-rule').style.background = `linear-gradient(90deg, ${fc1}, ${fc2})`;
-  cardEl.querySelector('.saved-flip-front .front-tagline').style.color = isDark ? lighten(fc2, 80) : fc2;
 
   // Front logo
   const logoFile = isDark ? 'White' : (LOGO_MAP[s.frontLogo] || s.frontLogo);
@@ -1179,7 +1160,6 @@ function applyStateToCard(cardEl, s, text) {
 function cardFrontHTML() {
   return `<div class="accent-strip"></div>
     <img class="front-logo" src="${logoBase}San Gorgonio Blue.png" alt="BLD">
-    <div class="front-tagline">Knowledge &middot; Community &middot; Discovery</div>
     <hr class="front-rule">
     <div class="wave-bottom"><svg viewBox="0 0 700 87" preserveAspectRatio="none"><path class="wave-path-1" d="M0,40 C120,60 200,20 350,35 C500,50 600,22 700,35 L700,87 L0,87 Z"/><path class="wave-path-2" d="M0,52 C150,38 250,62 400,45 C550,28 650,55 700,45 L700,87 L0,87 Z"/></svg></div>`;
 }
@@ -1208,10 +1188,6 @@ function cardBackHTML() {
         <div class="contact-item">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
           <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.mybld.org</a></div>
-        </div>
-        <div class="contact-item">
-          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <div class="contact-text"><span class="contact-label">Hours</span>Mon, Tue, Thu, Fri: 10am\u20135pm<br>Wed, Sat, Sun: 1pm\u20135pm</div>
         </div>
       </div>
     </div>
@@ -1510,7 +1486,6 @@ document.getElementById('btn-spec').addEventListener('click', () => {
     `  Accent Strip:   linear-gradient ${state.frontAccent1} \u2192 ${state.frontAccent2}`,
     `  Divider Rule:   linear-gradient ${state.frontAccent1} \u2192 ${state.frontAccent2}`,
     `Accent 2:         ${fc2}  (${state.frontAccent2})`,
-    `  Tagline Text:   ${isDark ? lighten(fc2, 80) : fc2}  (${state.frontAccent2})`,
     ``,
     `\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550`,
     `  BACK FACE`,
