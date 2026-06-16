@@ -168,7 +168,7 @@
       transform: translateY(-50%);
       padding-right: 2.7rem;
       border-right: 2px solid rgba(0,0,0,0.1);
-      width: 280px;
+      width: 290px;
       z-index: 2;
     }
 
@@ -216,15 +216,15 @@
     }
 
     .back-contact {
-      margin-left: auto;
-      flex: 0 1 auto;
-      width: 52%;
+      position: absolute;
+      top: 50%;
+      right: 1.7%;     /* nudged ~10px right (was ~22px margin) to free space for the name */
+      width: 44%;
       display: flex;
       flex-direction: column;
+      transform: translateY(-50%);  /* center on card height */
       gap: 0.7rem;
-      position: relative;
-      left: 32px;
-      top: 16px;
+      z-index: 2;
     }
 
     .contact-item {
@@ -274,6 +274,7 @@
       opacity: 0.35;
     }
     #custom-email:empty::before { content: 'Email address'; }
+    #custom-direct:empty::before { content: 'Add direct line'; }
 
     .back-footer {
       position: relative;
@@ -367,6 +368,27 @@
       margin-top: 1.2rem;
       margin-bottom: 0.5rem;
     }
+
+    .content-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+      cursor: pointer;
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      color: #7A7063;
+      user-select: none;
+    }
+    .content-toggle input {
+      width: 15px;
+      height: 15px;
+      accent-color: #15424A;
+      cursor: pointer;
+    }
+    .content-toggle:hover { color: #15424A; }
 
     .picker-swatch.contrast-warn {
       border-color: #D97706;
@@ -827,13 +849,17 @@
                 <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
                 <div class="contact-text"><span class="contact-label">Phone</span>(951) 845-1357</div>
               </div>
+              <div class="contact-item contact-optional" id="custom-direct-item" style="display:none">
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <div class="contact-text"><span class="contact-label">Direct Line</span><span class="editable-contact" id="custom-direct" contenteditable="true" spellcheck="false"></span></div>
+              </div>
               <div class="contact-item" id="custom-email-item">
                 <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <div class="contact-text"><span class="contact-label">Email</span><span class="editable-contact" id="custom-email" contenteditable="true" spellcheck="false">info@mybld.org</span></div>
+                <div class="contact-text"><span class="contact-label">Email</span><span class="editable-contact" id="custom-email" contenteditable="true" spellcheck="false">info@myBLD.org</span></div>
               </div>
               <div class="contact-item">
                 <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.mybld.org</a></div>
+                <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.myBLD.org</a></div>
               </div>
               <div class="contact-item">
                 <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -846,6 +872,7 @@
           </div>
         </div>
         <div class="card-pickers" id="back-pickers"></div>
+        <label class="content-toggle"><input type="checkbox" id="toggle-direct"><span>Add a direct line number</span></label>
       </div>
     </div>
 
@@ -1059,15 +1086,42 @@ function applyState() {
 }
 
 // ═══ Auto-scale name to fit container ═══
-// Strategy: keep max font size and let text wrap to 2 lines first.
-// Only shrink font when even 2 lines overflow the max-height.
+// Strategy: keep the name on a single line, shrinking the font to fit the width.
+// If the user inserts a manual line break, honor their two-line layout instead.
+// Only wrap automatically when even the smallest font won't fit on one line.
 function autoScaleName(el) {
   const MAX = 2.1, MIN = 0.8, STEP = 0.05;
-  const SLOP = 2; // contenteditable scrollHeight is always ~2px over clientHeight
-  el.style.fontSize = MAX + 'rem';
+  const SLOP = 2; // contenteditable measurements run ~2px over
+  const hasManualBreak = el.innerText.includes('\n');
   el.style.maxHeight = '';
-  if (el.scrollHeight - el.clientHeight <= SLOP) return;
-  let size = MAX;
+  let size;
+
+  if (hasManualBreak) {
+    // Honor the explicit two-line layout: shrink only if it overflows the height.
+    el.style.whiteSpace = 'pre-wrap';
+    el.style.fontSize = MAX + 'rem';
+    size = MAX;
+    while (size > MIN && el.scrollHeight - el.clientHeight > SLOP) {
+      size -= STEP;
+      el.style.fontSize = size + 'rem';
+    }
+    return;
+  }
+
+  // Prefer a single line: shrink the font until the name fits the width.
+  el.style.whiteSpace = 'nowrap';
+  el.style.fontSize = MAX + 'rem';
+  size = MAX;
+  while (size > MIN && el.scrollWidth - el.clientWidth > SLOP) {
+    size -= STEP;
+    el.style.fontSize = size + 'rem';
+  }
+  if (el.scrollWidth - el.clientWidth <= SLOP) return; // fits on one line
+
+  // Too long even at the smallest size — fall back to wrapping onto two lines.
+  el.style.whiteSpace = 'pre-wrap';
+  el.style.fontSize = MAX + 'rem';
+  size = MAX;
   while (size > MIN && el.scrollHeight - el.clientHeight > SLOP) {
     size -= STEP;
     el.style.fontSize = size + 'rem';
@@ -1091,6 +1145,17 @@ document.querySelectorAll('.editable-contact').forEach(el => {
     if (e.key === 'Enter') e.preventDefault();
   });
 });
+
+// ═══ Direct Line checkbox: show/hide the optional contact row ═══
+const directToggle = document.getElementById('toggle-direct');
+const directItem = document.getElementById('custom-direct-item');
+const directField = document.getElementById('custom-direct');
+function setDirectEnabled(on, focus) {
+  directToggle.checked = on;
+  directItem.style.display = on ? '' : 'none';
+  if (on && focus) directField.focus();
+}
+directToggle.addEventListener('change', () => setDirectEnabled(directToggle.checked, true));
 
 // ═══ Apply state to a saved card element ═══
 function applyStateToCard(cardEl, s, text) {
@@ -1148,10 +1213,18 @@ function applyStateToCard(cardEl, s, text) {
 
   // Apply saved text fields
   if (text) {
+    // Name is scaled to fit in renderSaved() after the card is in the DOM
     if (text.personName) cardEl.querySelector('.saved-flip-back .back-name').textContent = text.personName;
     if (text.jobTitle) cardEl.querySelector('.saved-flip-back .back-jobtitle').textContent = text.jobTitle;
     const emailEl = cardEl.querySelector('.saved-flip-back .saved-email');
-    if (emailEl) emailEl.textContent = text.email || 'info@mybld.org';
+    if (emailEl) emailEl.textContent = text.email || 'info@myBLD.org';
+    // Direct Line is optional — only show it when a number was saved
+    const directItem = cardEl.querySelector('.saved-flip-back .contact-direct');
+    const direct = (text.direct || '').trim();
+    if (directItem) {
+      directItem.style.display = direct ? '' : 'none';
+      if (direct) directItem.querySelector('.saved-direct').textContent = direct;
+    }
   }
 }
 
@@ -1180,13 +1253,17 @@ function cardBackHTML() {
           <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
           <div class="contact-text"><span class="contact-label">Phone</span>(951) 845-1357</div>
         </div>
+        <div class="contact-item contact-direct" style="display:none">
+          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <div class="contact-text"><span class="contact-label">Direct Line</span><span class="saved-direct"></span></div>
+        </div>
         <div class="contact-item contact-email">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <div class="contact-text"><span class="contact-label">Email</span><span class="saved-email">info@mybld.org</span></div>
+          <div class="contact-text"><span class="contact-label">Email</span><span class="saved-email">info@myBLD.org</span></div>
         </div>
         <div class="contact-item">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.mybld.org</a></div>
+          <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.myBLD.org</a></div>
         </div>
         <div class="contact-item">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -1609,6 +1686,9 @@ function renderSaved() {
     container.appendChild(card);
   });
 
+  // Scale saved names to fit now that the cards are in the DOM (needs layout to measure)
+  container.querySelectorAll('.saved-flip-back .back-name').forEach(autoScaleName);
+
   // Shared load logic for both card clicks and load buttons
   function loadByIndex(idx) {
     const item = getSaved()[idx];
@@ -1623,6 +1703,8 @@ function renderSaved() {
       if (item.text.personName) document.getElementById('custom-name').innerText = item.text.personName;
       if (item.text.jobTitle) document.getElementById('custom-jobtitle').innerText = item.text.jobTitle;
       if (item.text.email) document.getElementById('custom-email').innerText = item.text.email;
+      directField.innerText = item.text.direct || '';
+      setDirectEnabled(!!(item.text.directEnabled || (item.text.direct || '').trim()), false);
       autoScaleName(document.getElementById('custom-name'));
     }
     showToast(`Loaded "${item.name}"`);
@@ -1710,6 +1792,8 @@ function getCardText() {
     personName: document.getElementById('custom-name').innerText.trim().replace(/\n/g, ' '),
     jobTitle: document.getElementById('custom-jobtitle').innerText.trim(),
     email: document.getElementById('custom-email').innerText.trim(),
+    direct: directToggle.checked ? directField.innerText.trim() : '',
+    directEnabled: directToggle.checked,
   };
 }
 
@@ -1774,6 +1858,12 @@ document.getElementById('btn-pdf').addEventListener('click', async () => {
 
     async function captureWithBleed(el) {
       const clone = el.cloneNode(true);
+      // Drop optional contact rows (e.g. Direct Line) that were left blank,
+      // so their editable placeholder text isn't baked into the export.
+      clone.querySelectorAll('.contact-optional').forEach(item => {
+        const field = item.querySelector('.editable-contact');
+        if (!field || !field.textContent.trim()) item.remove();
+      });
       clone.style.position = 'absolute';
       clone.style.left = BLEED_PX + 'px';
       clone.style.top = BLEED_PX + 'px';
@@ -1964,6 +2054,14 @@ document.getElementById('import-file-input').addEventListener('change', (e) => {
 // ═══ Initial render ═══
 renderSaved();
 applyState();
+
+// Re-scale names once the web fonts load, so width measurements are accurate
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => {
+    autoScaleName(document.getElementById('custom-name'));
+    document.querySelectorAll('.saved-card .saved-flip-back .back-name').forEach(autoScaleName);
+  });
+}
 </script>
 
 </body>
