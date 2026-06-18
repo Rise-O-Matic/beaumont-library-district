@@ -843,7 +843,7 @@
               </div>
               <div class="contact-item">
                 <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.myBLD.org</a></div>
+                <div class="contact-text"><span class="contact-label">Web</span>www.myBLD.org</div>
               </div>
               <div class="contact-item">
                 <span class="social-icons"><svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg><svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></span>
@@ -1055,10 +1055,6 @@ function applyState() {
   document.querySelectorAll('#custom-contact .contact-icon').forEach(el => el.style.color = bc1);
   document.querySelectorAll('#custom-contact .contact-text').forEach(el => el.style.color = txt);
   document.querySelectorAll('#custom-contact .contact-label').forEach(el => el.style.color = bc2);
-  document.querySelectorAll('#custom-contact .contact-text a').forEach(el => {
-    el.style.color = txt;
-    el.style.borderBottom = `1px solid ${txt}33`;
-  });
 
   // Back + footer
   document.getElementById('custom-back').style.background = isDark ? '#FDFAF5' : '#FDFCFA';
@@ -1187,10 +1183,6 @@ function applyStateToCard(cardEl, s, text) {
   cardEl.querySelectorAll('.saved-flip-back .contact-icon').forEach(el => el.style.color = bc1);
   cardEl.querySelectorAll('.saved-flip-back .contact-text').forEach(el => el.style.color = txt);
   cardEl.querySelectorAll('.saved-flip-back .contact-label').forEach(el => el.style.color = bc2);
-  cardEl.querySelectorAll('.saved-flip-back .contact-text a').forEach(el => {
-    el.style.color = txt;
-    el.style.borderBottom = `1px solid ${txt}33`;
-  });
 
   // Footer
   cardEl.querySelector('.saved-flip-back .footer-wave-path').setAttribute('fill', ftr);
@@ -1247,7 +1239,7 @@ function cardBackHTML() {
         </div>
         <div class="contact-item">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          <div class="contact-text"><span class="contact-label">Web</span><a href="https://www.mybld.org">www.myBLD.org</a></div>
+          <div class="contact-text"><span class="contact-label">Web</span>www.myBLD.org</div>
         </div>
         <div class="contact-item">
           <span class="social-icons"><svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg><svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></span>
