@@ -282,72 +282,6 @@
     #custom-email:empty::before { content: 'Email address'; }
     #custom-direct:empty::before { content: 'Direct / ext.'; }
 
-    /* ── Letterhead: alternate back layout ───────────────────
-       Institution (logo + address + main line + org email) on the
-       left and the individual (name, title, direct line, direct email)
-       on the right, with a closing rule across the bottom. Reuses
-       .contact-icon/.contact-text/.back-name
-       so applyState() colors it through the same hooks. */
-    .back-letterhead { display: none; }
-
-    #custom-back[data-layout="letterhead"] .back-content,
-    #custom-back[data-layout="letterhead"] .back-identity,
-    #custom-back[data-layout="letterhead"] .back-footer { display: none; }
-
-    #custom-back[data-layout="letterhead"] .back-letterhead {
-      display: grid;
-      position: absolute;
-      inset: 0;
-      padding: 2.4rem 3.3rem 1.5rem;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr auto;
-      grid-template-areas:
-        "inst       individual"
-        "channels   channels";
-      column-gap: 2.4rem;
-      z-index: 2;
-    }
-
-    .lh-institution {
-      grid-area: inst;
-      padding-top: 5.5rem;          /* clear the absolutely-placed logo */
-      padding-bottom: 0.7rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 0.95rem;
-    }
-    .lh-individual {
-      grid-area: individual;
-      display: flex;
-      flex-direction: column;
-      align-self: stretch;
-      justify-content: flex-end;
-      position: relative;
-      padding-bottom: 0.7rem;
-    }
-    .lh-individual::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -1.2rem;
-      border-left: 1px solid var(--lh-rule-color, rgba(0,0,0,0.12));
-    }
-    .lh-individual .back-name { margin-bottom: 0.1rem; }
-    .lh-contacts {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-top: 0.9rem;
-    }
-
-    .lh-channels {
-      grid-area: channels;
-      padding-top: 0.7rem;
-      border-top: 1px solid var(--lh-rule-color, rgba(0,0,0,0.12));
-    }
-
     .back-footer {
       position: relative;
       height: 50px;
@@ -908,7 +842,7 @@
         <div class="card-pickers" id="front-pickers"></div>
       </div>
       <div class="card-column">
-        <div class="card-face card-back" id="custom-back" data-layout="centered">
+        <div class="card-face card-back" id="custom-back">
           <div class="back-bar" id="custom-bar"></div>
           <img class="back-logo-small" id="custom-back-logo" src="BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/San Gorgonio Blue.png" alt="">
           <div class="back-content">
@@ -937,44 +871,11 @@
               </div>
             </div>
           </div>
-          <!-- Letterhead alternate layout (hidden unless data-layout="letterhead") -->
-          <div class="back-letterhead">
-            <div class="lh-institution">
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
-              </div>
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                <div class="contact-text">(951) 845-1357</div>
-              </div>
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <div class="contact-text">info@myBLD.org</div>
-              </div>
-            </div>
-            <div class="lh-individual">
-              <div class="back-name" id="lh-name" contenteditable="true" spellcheck="false">First Lastname</div>
-              <div class="back-jobtitle" id="lh-jobtitle" contenteditable="true" spellcheck="false">Library Services</div>
-              <div class="lh-contacts">
-                <div class="contact-item">
-                  <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                  <div class="contact-text"><span class="editable-contact" id="lh-direct" contenteditable="true" spellcheck="false">(951) 845-1204</span></div>
-                </div>
-                <div class="contact-item">
-                  <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  <div class="contact-text"><span class="editable-contact" id="lh-email" contenteditable="true" spellcheck="false">jdoe@myBLD.org</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="lh-channels" aria-hidden="true"></div>
-          </div>
           <div class="back-footer">
             <svg viewBox="0 0 700 66" preserveAspectRatio="none"><path id="custom-footer-wave" d="M0,18 C100,30 200,8 350,20 C500,32 600,12 700,24 L700,66 L0,66 Z"/></svg>
           </div>
         </div>
         <div class="card-pickers" id="back-pickers"></div>
-        <label class="content-toggle"><input type="checkbox" id="toggle-layout-letterhead"><span>Use letterhead layout (experimental)</span></label>
         <label class="content-toggle"><input type="checkbox" id="toggle-direct"><span>Add direct line or extension</span></label>
       </div>
     </div>
@@ -1165,28 +1066,22 @@ function applyState() {
   // Back bar
   document.getElementById('custom-bar').style.background = `linear-gradient(90deg, ${bc1}, ${lighten(bc1,40)}, ${bc2}, ${lighten(bc2,40)}, ${bc1})`;
 
-  // Back text — color names/titles by class so both layouts are covered
-  document.querySelectorAll('#custom-back .back-name').forEach(el => el.style.color = txt);
-  document.querySelectorAll('#custom-back .back-jobtitle').forEach(el => el.style.color = bc1);
+  // Back text
+  document.getElementById('custom-name').style.color = txt;
+  document.getElementById('custom-jobtitle').style.color = bc1;
   document.getElementById('custom-identity').style.borderRight = `2px solid ${bc1}33`;
 
-  // Contact items — scoped to #custom-back so the letterhead rows inherit too
-  document.querySelectorAll('#custom-back .contact-icon').forEach(el => el.style.color = bc1);
-  document.querySelectorAll('#custom-back .contact-text').forEach(el => el.style.color = txt);
-  document.querySelectorAll('#custom-back .contact-label').forEach(el => el.style.color = bc2);
-
-  // Letterhead dividers pick up the accent
-  document.getElementById('custom-back').style.setProperty('--lh-rule-color', `${bc1}33`);
+  // Contact items
+  document.querySelectorAll('#custom-contact .contact-icon').forEach(el => el.style.color = bc1);
+  document.querySelectorAll('#custom-contact .contact-text').forEach(el => el.style.color = txt);
+  document.querySelectorAll('#custom-contact .contact-label').forEach(el => el.style.color = bc2);
 
   // Back + footer
   document.getElementById('custom-back').style.background = isDark ? '#FDFAF5' : '#FDFCFA';
   document.getElementById('custom-footer-wave').setAttribute('fill', ftr);
 
-  // Auto-scale whichever name is currently visible (the hidden layout's
-  // name measures 0-wide and would shrink to the minimum incorrectly)
-  const activeName = document.getElementById('custom-back').getAttribute('data-layout') === 'letterhead'
-    ? document.getElementById('lh-name')
-    : document.getElementById('custom-name');
+  // Auto-scale editable name
+  const activeName = document.getElementById('custom-name');
   if (activeName) autoScaleName(activeName);
 }
 
@@ -1234,17 +1129,14 @@ function autoScaleName(el) {
 }
 
 const nameEl = document.getElementById('custom-name');
-const lhNameEl = document.getElementById('lh-name');
-[nameEl, lhNameEl].forEach(el => {
-  el.addEventListener('input', () => autoScaleName(el));
-  el.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      // Allow at most one line break (two lines total)
-      if (el.innerText.includes('\n')) return;
-      document.execCommand('insertLineBreak');
-    }
-  });
+nameEl.addEventListener('input', () => autoScaleName(nameEl));
+nameEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    // Allow at most one line break (two lines total)
+    if (nameEl.innerText.includes('\n')) return;
+    document.execCommand('insertLineBreak');
+  }
 });
 
 // Prevent Enter in single-line editable contact fields
@@ -1264,25 +1156,6 @@ function setDirectEnabled(on, focus) {
   if (on && focus) directField.focus();
 }
 directToggle.addEventListener('change', () => setDirectEnabled(directToggle.checked, true));
-
-// ═══ Layout toggle: centered ⇄ letterhead (back face) ═══
-const layoutToggle = document.getElementById('toggle-layout-letterhead');
-const backCard = document.getElementById('custom-back');
-const jobEl = document.getElementById('custom-jobtitle');
-const lhJobEl = document.getElementById('lh-jobtitle');
-layoutToggle.addEventListener('change', () => {
-  const toLetterhead = layoutToggle.checked;
-  // Carry the typed name/title across so editing in one layout isn't lost.
-  if (toLetterhead) {
-    lhNameEl.innerText = nameEl.innerText;
-    lhJobEl.innerText = jobEl.innerText;
-  } else {
-    nameEl.innerText = lhNameEl.innerText;
-    jobEl.innerText = lhJobEl.innerText;
-  }
-  backCard.setAttribute('data-layout', toLetterhead ? 'letterhead' : 'centered');
-  applyState();
-});
 
 // ═══ Apply state to a saved card element ═══
 function applyStateToCard(cardEl, s, text) {
