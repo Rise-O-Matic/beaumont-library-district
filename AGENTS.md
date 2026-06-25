@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -9,8 +9,6 @@ A single-file business card color builder for the **Beaumont Library District (B
 ## Development
 
 No build step, no dependencies, no framework. Open `index.html` directly in a browser. Refresh to see changes. No tests, no linter.
-
-For a live preview (and the only reliable way to load the page in headless/automation tooling, since `file://` doesn't render correctly there), run `preview.cmd` (Windows, double-click) or `./preview.sh` (Git Bash/macOS/Linux). Both serve the card at `http://localhost:8731/index.html` and open it in your browser; press Ctrl+C to stop.
 
 External CDN libraries: `html2canvas` (card-to-image capture) and `jsPDF` (print PDF export with crop marks and bleed).
 

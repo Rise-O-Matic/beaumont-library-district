@@ -21,7 +21,7 @@
       min-height: 100vh;
       font-family: 'News Cycle', sans-serif;
       background: #E0D8CC;
-      padding: 3rem 2rem;
+      padding: 3rem 2rem 6rem;
     }
 
     .page-title {
@@ -96,7 +96,7 @@
     .front-logo {
       position: relative;
       z-index: 1;
-      width: 480px;
+      width: 525px;
       height: auto;
       object-fit: contain;
     }
@@ -114,7 +114,7 @@
     .front-channels .contact-item { align-items: center; }
     .front-channels .contact-icon { margin-top: 0; }
     .front-channels .contact-text {
-      font-size: 1.25rem;
+      font-size: 1.6rem;   /* match the back-face address / contact text */
       white-space: nowrap;
     }
 
@@ -140,54 +140,44 @@
     }
     .wave-bottom svg { display: block; width: 100%; height: 100%; }
 
-    /* ── BACK FACE ── */
+    /* ── BACK FACE (header · name · contact · wave) ── */
     .card-back {
-      --back-content-bottom: calc(24% - 4px);
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto 1fr auto;
-    }
-
-    .back-bar {
-      height: 6px;
       position: relative;
-    }
-    .back-bar::before {
-      content: '';
-      position: absolute;
-      top: -25px;
-      left: -25px;
-      right: -25px;
-      bottom: 0;
-      background: inherit;
+      display: flex;
+      flex-direction: column;
+      padding: 2.1rem 2.7rem 0;
     }
 
-    .back-content {
+    /* Header row: logo · address */
+    .back-header {
       display: flex;
-      padding: 2.2rem 3.3rem;
-      gap: 2.7rem;
+      align-items: center;
+      gap: 2.4rem;
+    }
+
+    .back-logo-small {
+      height: 5.3rem;   /* between the two-line address height and the prior larger logo */
+      width: auto;
+      flex-shrink: 0;
+    }
+
+    .back-address {
+      display: flex;
       align-items: flex-start;
     }
 
+    /* Name + title block */
     .back-identity {
-      position: absolute;
-      bottom: var(--back-content-bottom);
-      left: 3.3rem;
-      padding-right: 2.7rem;
-      border-right: 2px solid rgba(0,0,0,0.1);
-      width: 290px;
-      z-index: 2;
+      margin-top: 1.6rem;
     }
 
     .back-name {
       font-family: 'DM Serif Display', serif;
-      font-size: 2.1rem;
-      line-height: 1.25;
-      white-space: pre-wrap;
-      word-break: break-word;
+      font-size: 2.5rem;
+      line-height: 1.15;
+      white-space: nowrap;   /* names always stay on one line (JS shrinks font to fit) */
       overflow: hidden;
       outline: none;
-      max-height: 5.25rem; /* 2 lines: 2.1rem * 1.25 * 2 */
     }
     .back-name:focus {
       border-bottom: 2px solid rgba(0,0,0,0.15);
@@ -200,8 +190,8 @@
     .back-jobtitle {
       font-family: 'Libre Franklin', sans-serif;
       font-weight: 400;
-      font-size: 1.17rem;
-      margin-top: 0.45rem;
+      font-size: 1.6rem;   /* same size as the address / contact text */
+      margin-top: 0.4rem;
       letter-spacing: 0.02em;
       outline: none;
     }
@@ -213,24 +203,12 @@
       opacity: 0.35;
     }
 
-    .back-logo-small {
-      position: absolute;
-      top: calc(6px + 2.7rem);
-      left: 3.3rem;
-      width: 165px;
-      opacity: 1;
-      z-index: 3;
-    }
-
-    .back-contact {
-      position: absolute;
-      bottom: var(--back-content-bottom);
-      right: 1.7%;     /* nudged ~10px right (was ~22px margin) to free space for the name */
-      width: 44%;
+    /* Contact column: phone, then email beneath it (both left-aligned) */
+    .back-contact-row {
       display: flex;
       flex-direction: column;
-      gap: 1.05rem;   /* comfortable row spacing (labels removed freed the vertical room) */
-      z-index: 2;
+      gap: 0.55rem;
+      margin-top: 1.9rem;
     }
 
     .contact-item {
@@ -239,30 +217,11 @@
       gap: 0.6rem;
     }
 
-    .contact-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .contact-icon {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      margin-top: 2px;
-    }
-
     .contact-text {
       font-family: 'News Cycle', sans-serif;
-      font-size: 1.42rem;   /* ~8.2pt at actual print size for legibility */
+      font-size: 1.6rem;   /* a touch larger for legibility at print size */
       line-height: 1.2;
     }
-
-    .contact-text a {
-      text-decoration: none;
-      transition: opacity 0.3s;
-    }
-    .contact-text a:hover { opacity: 0.7; }
 
     .contact-label {
       display: none;   /* labels removed — the row icons carry the meaning */
@@ -270,7 +229,7 @@
 
     .editable-contact {
       outline: none;
-      display: block;
+      display: inline-block;
       min-width: 60px;
     }
     .editable-contact:focus {
@@ -280,12 +239,16 @@
       opacity: 0.35;
     }
     #custom-email:empty::before { content: 'Email address'; }
-    #custom-direct:empty::before { content: 'Direct / ext.'; }
+    #custom-phone:empty::before { content: 'Phone number'; }
 
     .back-footer {
-      position: relative;
-      height: 50px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 46px;
       overflow: visible;
+      pointer-events: none;
     }
     .back-footer svg {
       position: absolute;
@@ -320,17 +283,21 @@
         width: 92vw;
         height: calc(92vw / 1.75);
       }
-      .front-logo { width: 55vw; }
+      .front-logo { width: 60vw; }
       .front-channels { gap: 2.4vw; margin-top: 2.5vw; }
-      .front-channels .contact-text { font-size: 2.63vw; }
-      .front-channels .contact-icon { width: 2.63vw; height: 2.63vw; }
+      .front-channels .contact-text { font-size: 3.35vw; }
+      .front-channels .contact-icon { width: 3.35vw; height: 3.35vw; }
       .front-channels .contact-item { gap: 1.4vw; }
       .front-channels .social-icons { gap: 0.7vw; }
-      .back-content { padding: 1.5rem 1.8rem; gap: 1.2rem; }
-      .back-name { font-size: 1.65rem; }
-      .back-identity { left: 1.8rem; padding-right: 1.2rem; width: 200px; }
-      .contact-text { font-size: 1.25rem; }
-      .back-logo-small { width: 120px; top: calc(6px + 1.5rem); left: 1.8rem; }
+      .card-back { padding: 3vw 4.6vw 0; }
+      .back-header { gap: 4vw; }
+      .back-logo-small { height: 11vw; width: auto; }
+      .back-identity { margin-top: 3vw; }
+      .back-name { font-size: 5vw; }
+      .back-jobtitle { font-size: 3.35vw; margin-top: 0.7vw; }
+      .back-contact-row { gap: 1.2vw; margin-top: 3.6vw; }
+      .contact-text { font-size: 3.35vw; }
+      .back-footer { height: 6vw; }
     }
 
     /* ══════════════════════════════════════
@@ -496,50 +463,18 @@
     .btn-pdf:hover { background: #6A4470; }
 
     /* Export dropdown */
-    .export-dropdown {
-      position: relative;
-      display: inline-block;
+    .export-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.6rem;
+      flex-wrap: wrap;
     }
-    .btn-export-toggle {
+    .btn-export {
       background: #8B5E3C;
       color: #FFFFFF;
     }
-    .btn-export-toggle:hover { background: #7A5030; }
-    .btn-export-toggle::after {
-      content: ' \25BE';
-      font-size: 0.7em;
-    }
-    .export-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 4px);
-      right: 0;
-      min-width: 180px;
-      background: #FFFFFF;
-      border-radius: 8px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-      border: 1px solid rgba(0,0,0,0.08);
-      z-index: 100;
-      overflow: hidden;
-    }
-    .export-dropdown.open .export-menu { display: block; }
-    .export-menu-item {
-      display: block;
-      width: 100%;
-      padding: 0.6rem 1rem;
-      font-family: 'Libre Franklin', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: #4A453D;
-      background: none;
-      border: none;
-      text-align: left;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .export-menu-item:hover { background: rgba(21,66,74,0.06); }
-    .export-menu-item + .export-menu-item { border-top: 1px solid rgba(0,0,0,0.06); }
+    .btn-export:hover { background: #7A5030; }
 
     /* Toast notification */
     .toast {
@@ -570,6 +505,55 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    /* ══════════════════════════════════════
+       ACTUAL-SIZE PREVIEW (100% — hover to flip back→front)
+    ══════════════════════════════════════ */
+    .preview-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 3.5rem;
+    }
+    .preview-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: #15424A;
+      text-align: center;
+      margin-bottom: 0.3rem;
+    }
+    .preview-subtitle {
+      font-family: 'Libre Franklin', sans-serif;
+      font-weight: 300;
+      font-size: 0.75rem;
+      color: #7A7063;
+      text-align: center;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.6rem;
+    }
+    .preview-flip {
+      perspective: 1200px;
+    }
+    .preview-flip-inner {
+      position: relative;
+      width: 336px;    /* 3.5in × 96dpi = real-world size */
+      height: 192px;   /* 2in   × 96dpi */
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transform: rotateY(180deg);   /* default: show the back face */
+    }
+    .preview-flip-inner:hover {
+      transform: rotateY(0deg);     /* hover: reveal the front face */
+    }
+    .preview-flip .saved-flip-front,
+    .preview-flip .saved-flip-back {
+      width: 336px;
+      height: 192px;
+    }
+    .preview-flip .mini-card {
+      transform: scale(0.48);   /* 700px card → 336px (100% of print size) */
     }
 
     /* ══════════════════════════════════════
@@ -618,6 +602,39 @@
     .btn-export-collection:hover,
     .btn-import-collection:hover { background: rgba(21,66,74,0.06); }
     .import-file-input { display: none; }
+
+    .saved-device-note {
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+      padding: 0.7rem 1.1rem;
+      background: #f4f1eb;
+      border-radius: 8px;
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #6A6258;
+      text-align: center;
+    }
+    .saved-device-note strong { color: #15424A; }
+
+    .page-footer {
+      max-width: 1500px;
+      margin: 3.5rem auto 0;
+      padding-top: 1.6rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 0.78rem;
+      color: #7A7063;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .page-footer a {
+      color: #15424A;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .page-footer a:hover { text-decoration: underline; }
+    .footer-sep { margin: 0 0.5rem; opacity: 0.5; }
 
     .saved-grid {
       display: grid;
@@ -799,7 +816,7 @@
     /* ── Print ── */
     @media print {
       body { background: none; padding: 0.5in; }
-      .page-title, .page-subtitle, .page-instructions, .saved-section { display: none; }
+      .page-title, .page-subtitle, .page-instructions, .saved-section, .page-footer { display: none; }
       .card-wrapper {
         width: 3.5in; height: 2in;
         perspective: none; animation: none; opacity: 1;
@@ -814,7 +831,7 @@
 <h1 class="page-title">Beaumont Library District Business Card Color Builder</h1>
 <p class="page-subtitle">Customize your BLD business card colors &middot; 3.5&Prime; &times; 2&Prime; standard</p>
 <div class="page-instructions">
-  <p><strong>How to use:</strong> Choose colors for each element using the swatches below each card. Click directly on the <em>Name</em>, <em>Job Title</em>, and <em>Email</em> fields on the back face to type your own text. Use <em>Randomize</em> to generate a random color combination, or <em>Reset</em> to return to the default theme. When you&rsquo;re happy with a design, click <em>Add to Gallery</em> to save it. Saved cards appear in the gallery below where you can compare, rename, or delete them. Use <em>Export PDF</em> to download a print-ready file with crop marks and bleed.</p>
+  <p><strong>How to use:</strong> Choose colors for each element using the swatches below each card. Click directly on the <em>Name</em>, <em>Job Title</em>, <em>Phone</em>, and <em>Email</em> fields on the back face to type your own text. Use your own direct line, the main library line, or a number with an extension &mdash; whatever fits. Use <em>Randomize</em> to generate a random color combination, or <em>Reset</em> to return to the default theme. When you&rsquo;re happy with a design, click <em>Add to Gallery</em> to save it. Saved cards appear in the gallery below where you can compare, rename, or delete them. Use <em>Export PDF</em> to download a print-ready file with crop marks and bleed.</p>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -843,32 +860,22 @@
       </div>
       <div class="card-column">
         <div class="card-face card-back" id="custom-back">
-          <div class="back-bar" id="custom-bar"></div>
-          <img class="back-logo-small" id="custom-back-logo" src="BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/San Gorgonio Blue.png" alt="">
-          <div class="back-content">
-            <div class="back-identity" id="custom-identity">
-              <div class="back-name" id="custom-name" contenteditable="true" spellcheck="false">First Lastname</div>
-              <div class="back-jobtitle" id="custom-jobtitle" contenteditable="true" spellcheck="false">Library Services</div>
+          <div class="back-header">
+            <img class="back-logo-small" id="custom-back-logo" src="BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/San Gorgonio Blue.png" alt="">
+            <div class="back-address">
+              <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
             </div>
-            <div class="back-contact" id="custom-contact">
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <div class="contact-text"><span class="contact-label">Address</span>125 E. Eighth Street<br>Beaumont, CA 92223</div>
-              </div>
-              <div class="contact-group">
-                <div class="contact-item">
-                  <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                  <div class="contact-text"><span class="contact-label">Phone</span>(951) 845-1357</div>
-                </div>
-                <div class="contact-item contact-optional" id="custom-direct-item" style="display:none">
-                  <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                  <div class="contact-text"><span class="contact-label">Direct Line</span><span class="editable-contact" id="custom-direct" contenteditable="true" spellcheck="false"></span></div>
-                </div>
-              </div>
-              <div class="contact-item" id="custom-email-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <div class="contact-text"><span class="contact-label">Email</span><span class="editable-contact" id="custom-email" contenteditable="true" spellcheck="false">info@myBLD.org</span></div>
-              </div>
+          </div>
+          <div class="back-identity" id="custom-identity">
+            <div class="back-name" id="custom-name" contenteditable="true" spellcheck="false">Firstname Lastname PhD</div>
+            <div class="back-jobtitle" id="custom-jobtitle" contenteditable="true" spellcheck="false">Library Services</div>
+          </div>
+          <div class="back-contact-row">
+            <div class="contact-item">
+              <div class="contact-text"><span class="editable-contact" id="custom-phone" contenteditable="true" spellcheck="false">(951) 845-1357</span></div>
+            </div>
+            <div class="contact-item contact-email" id="custom-email-item">
+              <div class="contact-text"><span class="editable-contact" id="custom-email" contenteditable="true" spellcheck="false">info@myBLD.org</span></div>
             </div>
           </div>
           <div class="back-footer">
@@ -876,7 +883,6 @@
           </div>
         </div>
         <div class="card-pickers" id="back-pickers"></div>
-        <label class="content-toggle"><input type="checkbox" id="toggle-direct"><span>Add direct line or extension</span></label>
       </div>
     </div>
 
@@ -884,15 +890,30 @@
       <button class="btn btn-randomize" id="btn-randomize">Randomize Colors</button>
       <button class="btn btn-reset" id="btn-reset">Reset</button>
       <button class="btn btn-save" id="btn-save">Add to Gallery</button>
-      <div class="export-dropdown" id="export-dropdown">
-        <button class="btn btn-export-toggle" id="btn-export-toggle">Export</button>
-        <div class="export-menu">
-          <button class="export-menu-item" id="btn-spec">Copy Full Spec</button>
-          <button class="export-menu-item" id="btn-share">Copy Share Link</button>
-          <button class="export-menu-item" id="btn-pdf">Export Print PDF</button>
-        </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ACTUAL-SIZE PREVIEW (100% — hover to flip)
+══════════════════════════════════════ -->
+<div class="preview-section">
+  <h2 class="preview-title">Approximate Size</h2>
+  <p class="preview-subtitle">Hold up a real business card next to the preview to judge scaling &mdash; hover to flip to the front</p>
+  <div class="preview-flip">
+    <div class="preview-flip-inner" id="preview-flip-inner">
+      <div class="saved-flip-front">
+        <div class="card-face card-front mini-card"></div>
+      </div>
+      <div class="saved-flip-back">
+        <div class="card-face card-back mini-card"></div>
       </div>
     </div>
+  </div>
+  <div class="export-actions">
+    <button class="btn btn-export" id="btn-spec">Copy Full Spec</button>
+    <button class="btn btn-export" id="btn-share">Copy Share Link</button>
+    <button class="btn btn-export" id="btn-pdf">Export Print PDF</button>
   </div>
 </div>
 
@@ -901,15 +922,28 @@
 ══════════════════════════════════════ -->
 <div class="saved-section" id="saved-section">
   <h2 class="saved-title">Saved Schemes</h2>
-  <p class="saved-subtitle">Hover over any card to flip between front &amp; back</p>
+  <p class="saved-subtitle">Schemes you save with &ldquo;Add to Gallery&rdquo; appear here &mdash; hover any card to flip between front &amp; back</p>
   <div class="saved-header-actions">
     <button class="btn btn-flip-all" id="btn-flip-all">Flip All</button>
     <button class="btn btn-export-collection" id="btn-export-collection">Export Collection</button>
     <button class="btn btn-import-collection" id="btn-import-collection">Import Collection</button>
     <input type="file" accept=".json" class="import-file-input" id="import-file-input">
   </div>
+  <p class="saved-device-note">
+    <strong>Saved on this device only.</strong> Your gallery lives in this browser&rsquo;s storage &mdash; it won&rsquo;t follow you to another computer or browser. To move schemes elsewhere, use <em>Export Collection</em> here and <em>Import Collection</em> on the other device.
+  </p>
   <div class="saved-grid" id="saved-grid"></div>
 </div>
+
+<!-- ══════════════════════════════════════
+     SUPPORT FOOTER
+══════════════════════════════════════ -->
+<footer class="page-footer">
+  Questions or trouble with this tool? Contact Steven Brown &mdash;
+  <a href="mailto:steven@stevenbrown.design">steven@stevenbrown.design</a>
+  <span class="footer-sep">&middot;</span>
+  <a href="tel:+13109943048">310.994.3048</a>
+</footer>
 
 <div class="toast" id="toast"></div>
 
@@ -1063,18 +1097,12 @@ function applyState() {
   document.getElementById('custom-wave1').setAttribute('fill', isDark ? `rgba(200,180,155,${waveAlpha})` : `${fc1}11`);
   document.getElementById('custom-wave2').setAttribute('fill', isDark ? `rgba(200,180,155,${waveAlpha * 0.7})` : `${fc1}09`);
 
-  // Back bar
-  document.getElementById('custom-bar').style.background = `linear-gradient(90deg, ${bc1}, ${lighten(bc1,40)}, ${bc2}, ${lighten(bc2,40)}, ${bc1})`;
-
   // Back text
   document.getElementById('custom-name').style.color = txt;
   document.getElementById('custom-jobtitle').style.color = bc1;
-  document.getElementById('custom-identity').style.borderRight = `2px solid ${bc1}33`;
 
-  // Contact items
-  document.querySelectorAll('#custom-contact .contact-icon').forEach(el => el.style.color = bc1);
-  document.querySelectorAll('#custom-contact .contact-text').forEach(el => el.style.color = txt);
-  document.querySelectorAll('#custom-contact .contact-label').forEach(el => el.style.color = bc2);
+  // Contact text (address, phone, email)
+  document.querySelectorAll('#custom-back .contact-text').forEach(el => el.style.color = txt);
 
   // Back + footer
   document.getElementById('custom-back').style.background = isDark ? '#FDFAF5' : '#FDFCFA';
@@ -1083,46 +1111,22 @@ function applyState() {
   // Auto-scale editable name
   const activeName = document.getElementById('custom-name');
   if (activeName) autoScaleName(activeName);
+
+  // Mirror into the actual-size preview
+  updateLivePreview();
 }
 
 // ═══ Auto-scale name to fit container ═══
-// Strategy: keep the name on a single line, shrinking the font to fit the width.
-// If the user inserts a manual line break, honor their two-line layout instead.
-// Only wrap automatically when even the smallest font won't fit on one line.
+// The name always stays on a single line — shrink the font to fit the (widened)
+// name column so even long names read large and prominent.
 function autoScaleName(el) {
-  const MAX = 2.1, MIN = 0.8, STEP = 0.05;
+  const MAX = 2.5, MIN = 1.1, STEP = 0.05;
   const SLOP = 2; // contenteditable measurements run ~2px over
-  const hasManualBreak = el.innerText.includes('\n');
   el.style.maxHeight = '';
-  let size;
-
-  if (hasManualBreak) {
-    // Honor the explicit two-line layout: shrink only if it overflows the height.
-    el.style.whiteSpace = 'pre-wrap';
-    el.style.fontSize = MAX + 'rem';
-    size = MAX;
-    while (size > MIN && el.scrollHeight - el.clientHeight > SLOP) {
-      size -= STEP;
-      el.style.fontSize = size + 'rem';
-    }
-    return;
-  }
-
-  // Prefer a single line: shrink the font until the name fits the width.
   el.style.whiteSpace = 'nowrap';
   el.style.fontSize = MAX + 'rem';
-  size = MAX;
+  let size = MAX;
   while (size > MIN && el.scrollWidth - el.clientWidth > SLOP) {
-    size -= STEP;
-    el.style.fontSize = size + 'rem';
-  }
-  if (el.scrollWidth - el.clientWidth <= SLOP) return; // fits on one line
-
-  // Too long even at the smallest size — fall back to wrapping onto two lines.
-  el.style.whiteSpace = 'pre-wrap';
-  el.style.fontSize = MAX + 'rem';
-  size = MAX;
-  while (size > MIN && el.scrollHeight - el.clientHeight > SLOP) {
     size -= STEP;
     el.style.fontSize = size + 'rem';
   }
@@ -1130,13 +1134,9 @@ function autoScaleName(el) {
 
 const nameEl = document.getElementById('custom-name');
 nameEl.addEventListener('input', () => autoScaleName(nameEl));
+// Keep the name on one line — never allow a manual line break.
 nameEl.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    // Allow at most one line break (two lines total)
-    if (nameEl.innerText.includes('\n')) return;
-    document.execCommand('insertLineBreak');
-  }
+  if (e.key === 'Enter') e.preventDefault();
 });
 
 // Prevent Enter in single-line editable contact fields
@@ -1145,17 +1145,6 @@ document.querySelectorAll('.editable-contact').forEach(el => {
     if (e.key === 'Enter') e.preventDefault();
   });
 });
-
-// ═══ Direct Line checkbox: show/hide the optional contact row ═══
-const directToggle = document.getElementById('toggle-direct');
-const directItem = document.getElementById('custom-direct-item');
-const directField = document.getElementById('custom-direct');
-function setDirectEnabled(on, focus) {
-  directToggle.checked = on;
-  directItem.style.display = on ? '' : 'none';
-  if (on && focus) directField.focus();
-}
-directToggle.addEventListener('change', () => setDirectEnabled(directToggle.checked, true));
 
 // ═══ Apply state to a saved card element ═══
 function applyStateToCard(cardEl, s, text) {
@@ -1188,8 +1177,6 @@ function applyStateToCard(cardEl, s, text) {
   // Back
   const back = cardEl.querySelector('.card-back');
   back.style.background = isDark ? '#FDFAF5' : '#FDFCFA';
-  cardEl.querySelector('.saved-flip-back .back-bar').style.background = `linear-gradient(90deg, ${bc1}, ${lighten(bc1,40)}, ${bc2}, ${lighten(bc2,40)}, ${bc1})`;
-
   // Back logo
   const backLogoFile = LOGO_MAP[s.backLogo] || LOGO_MAP[s.frontLogo];
   if (backLogoFile) cardEl.querySelector('.saved-flip-back .back-logo-small').src = logoBase + backLogoFile + '.png';
@@ -1197,12 +1184,9 @@ function applyStateToCard(cardEl, s, text) {
   // Back text
   cardEl.querySelector('.saved-flip-back .back-name').style.color = txt;
   cardEl.querySelector('.saved-flip-back .back-jobtitle').style.color = bc1;
-  cardEl.querySelector('.saved-flip-back .back-identity').style.borderRight = `2px solid ${bc1}33`;
 
-  // Contact
-  cardEl.querySelectorAll('.saved-flip-back .contact-icon').forEach(el => el.style.color = bc1);
+  // Contact text
   cardEl.querySelectorAll('.saved-flip-back .contact-text').forEach(el => el.style.color = txt);
-  cardEl.querySelectorAll('.saved-flip-back .contact-label').forEach(el => el.style.color = bc2);
 
   // Footer
   cardEl.querySelector('.saved-flip-back .footer-wave-path').setAttribute('fill', ftr);
@@ -1214,15 +1198,25 @@ function applyStateToCard(cardEl, s, text) {
     if (text.jobTitle) cardEl.querySelector('.saved-flip-back .back-jobtitle').textContent = text.jobTitle;
     const emailEl = cardEl.querySelector('.saved-flip-back .saved-email');
     if (emailEl) emailEl.textContent = text.email || 'info@myBLD.org';
-    // Direct Line is optional — only show it when a number was saved
-    const directItem = cardEl.querySelector('.saved-flip-back .contact-direct');
-    const direct = (text.direct || '').trim();
-    if (directItem) {
-      directItem.style.display = direct ? '' : 'none';
-      if (direct) directItem.querySelector('.saved-direct').textContent = direct;
-    }
+    const phoneEl = cardEl.querySelector('.saved-flip-back .saved-phone');
+    if (phoneEl) phoneEl.textContent = (text.phone || '').trim() || '(951) 845-1357';
   }
 }
+
+// ═══ Actual-size live preview (mirrors the builder; back by default, front on hover) ═══
+const livePreview = document.getElementById('preview-flip-inner');
+livePreview.querySelector('.saved-flip-front .card-front').innerHTML = cardFrontHTML();
+livePreview.querySelector('.saved-flip-back .card-back').innerHTML = cardBackHTML();
+function updateLivePreview() {
+  applyStateToCard(livePreview, state, getCardText());
+  const nm = livePreview.querySelector('.saved-flip-back .back-name');
+  if (nm) autoScaleName(nm);
+}
+
+// Keep the preview in sync as the editable text fields change
+['custom-name', 'custom-jobtitle', 'custom-email', 'custom-phone'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateLivePreview);
+});
 
 // ═══ Card HTML templates ═══
 function cardFrontHTML() {
@@ -1242,32 +1236,22 @@ function cardFrontHTML() {
 }
 
 function cardBackHTML() {
-  return `<div class="back-bar"></div>
-    <img class="back-logo-small" src="${logoBase}San Gorgonio Blue.png" alt="">
-    <div class="back-content">
-      <div class="back-identity">
-        <div class="back-name">First Lastname</div>
-        <div class="back-jobtitle">Library Services</div>
+  return `<div class="back-header">
+      <img class="back-logo-small" src="${logoBase}San Gorgonio Blue.png" alt="">
+      <div class="back-address">
+        <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
       </div>
-      <div class="back-contact">
-        <div class="contact-item">
-          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <div class="contact-text"><span class="contact-label">Address</span>125 E. Eighth Street<br>Beaumont, CA 92223</div>
-        </div>
-        <div class="contact-group">
-          <div class="contact-item">
-            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            <div class="contact-text"><span class="contact-label">Phone</span>(951) 845-1357</div>
-          </div>
-          <div class="contact-item contact-direct" style="display:none">
-            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-            <div class="contact-text"><span class="contact-label">Direct Line</span><span class="saved-direct"></span></div>
-          </div>
-        </div>
-        <div class="contact-item contact-email">
-          <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <div class="contact-text"><span class="contact-label">Email</span><span class="saved-email">info@myBLD.org</span></div>
-        </div>
+    </div>
+    <div class="back-identity">
+      <div class="back-name">Firstname Lastname PhD</div>
+      <div class="back-jobtitle">Library Services</div>
+    </div>
+    <div class="back-contact-row">
+      <div class="contact-item">
+        <div class="contact-text"><span class="saved-phone">(951) 845-1357</span></div>
+      </div>
+      <div class="contact-item contact-email">
+        <div class="contact-text"><span class="saved-email">info@myBLD.org</span></div>
       </div>
     </div>
     <div class="back-footer">
@@ -1566,12 +1550,8 @@ document.getElementById('btn-spec').addEventListener('click', () => {
     `Background:       ${isDark ? '#FDFAF5 (dark theme)' : '#FDFCFA (light theme)'}`,
     `Logo Color:       ${backLogoFile}  (${state.backLogo})`,
     `Accent 1:         ${bc1}  (${state.backAccent1})`,
-    `  Top Bar:        linear-gradient ${state.backAccent1} \u2192 ${state.backAccent2}`,
     `  Job Title:      ${bc1}  (${state.backAccent1})`,
-    `  Icons:          ${bc1}  (${state.backAccent1})`,
-    `  Divider:        ${lighten(bc1, 180)}`,
-    `Accent 2:         ${bc2}  (${state.backAccent2})`,
-    `  Contact Labels: ${bc2}  (${state.backAccent2})`,
+    `Accent 2:         ${bc2}  (${state.backAccent2})  [not currently shown on back]`,
     `Text:             ${txt}  (${state.backText})`,
     `  Staff Name:     ${txt}  (${state.backText})`,
     `  Contact Text:   ${txt}  (${state.backText})`,
@@ -1637,15 +1617,12 @@ function escapeHtml(str) {
 function renderSaved() {
   const list = getSaved();
   const container = document.getElementById('saved-grid');
-  const section = document.getElementById('saved-section');
 
   if (list.length === 0) {
-    section.style.display = 'none';
-    container.innerHTML = '';
+    container.innerHTML = '<p class="saved-empty">No saved schemes yet. Click &ldquo;Add to Gallery&rdquo; above to save the current design here.</p>';
     return;
   }
 
-  section.style.display = '';
   container.innerHTML = '';
 
   list.forEach((item, idx) => {
@@ -1701,8 +1678,7 @@ function renderSaved() {
       if (item.text.personName) document.getElementById('custom-name').innerText = item.text.personName;
       if (item.text.jobTitle) document.getElementById('custom-jobtitle').innerText = item.text.jobTitle;
       if (item.text.email) document.getElementById('custom-email').innerText = item.text.email;
-      directField.innerText = item.text.direct || '';
-      setDirectEnabled(!!(item.text.directEnabled || (item.text.direct || '').trim()), false);
+      document.getElementById('custom-phone').innerText = (item.text.phone || '').trim() || '(951) 845-1357';
       autoScaleName(document.getElementById('custom-name'));
     }
     showToast(`Loaded "${item.name}"`);
@@ -1790,15 +1766,14 @@ function getCardText() {
     personName: document.getElementById('custom-name').innerText.trim().replace(/\n/g, ' '),
     jobTitle: document.getElementById('custom-jobtitle').innerText.trim(),
     email: document.getElementById('custom-email').innerText.trim(),
-    direct: directToggle.checked ? directField.innerText.trim() : '',
-    directEnabled: directToggle.checked,
+    phone: document.getElementById('custom-phone').innerText.trim(),
   };
 }
 
 // ═══ Save button ═══
 document.getElementById('btn-save').addEventListener('click', () => {
   const text = getCardText();
-  const suggested = text.personName && text.personName !== 'First Lastname' ? text.personName : generateSchemeName(state);
+  const suggested = text.personName && text.personName !== 'Firstname Lastname PhD' ? text.personName : generateSchemeName(state);
   const name = prompt('Name this card:', suggested);
   if (!name || !name.trim()) return;
 
@@ -1856,11 +1831,12 @@ document.getElementById('btn-pdf').addEventListener('click', async () => {
 
     async function captureWithBleed(el) {
       const clone = el.cloneNode(true);
-      // Drop optional contact rows left blank so placeholders aren't baked into export.
-      clone.querySelectorAll('.contact-optional').forEach(item => {
-        const field = item.querySelector('.editable-contact');
-        if (!field || !field.textContent.trim()) item.remove();
-      });
+      // If an editable field was left blank, fall back to its default so the export
+      // never bakes in an empty line or a placeholder.
+      const clonePhone = clone.querySelector('#custom-phone');
+      if (clonePhone && !clonePhone.textContent.trim()) clonePhone.textContent = '(951) 845-1357';
+      const cloneEmail = clone.querySelector('#custom-email');
+      if (cloneEmail && !cloneEmail.textContent.trim()) cloneEmail.textContent = 'info@myBLD.org';
       clone.style.position = 'absolute';
       clone.style.left = BLEED_PX + 'px';
       clone.style.top = BLEED_PX + 'px';
@@ -1982,17 +1958,6 @@ document.getElementById('btn-pdf').addEventListener('click', async () => {
     btn.textContent = origText;
     btn.disabled = false;
   }
-});
-
-// ═══ Export dropdown toggle ═══
-const exportDropdown = document.getElementById('export-dropdown');
-document.getElementById('btn-export-toggle').addEventListener('click', (e) => {
-  e.stopPropagation();
-  exportDropdown.classList.toggle('open');
-});
-document.addEventListener('click', () => exportDropdown.classList.remove('open'));
-exportDropdown.querySelector('.export-menu').addEventListener('click', () => {
-  exportDropdown.classList.remove('open');
 });
 
 // ═══ Export Collection ═══
