@@ -867,7 +867,7 @@
             </div>
           </div>
           <div class="back-identity" id="custom-identity">
-            <div class="back-name" id="custom-name" contenteditable="true" spellcheck="false">Firstname Lastname PhD</div>
+            <div class="back-name" id="custom-name" contenteditable="true" spellcheck="false">Firstname Lastname IV MLIS, Ed.D</div>
             <div class="back-jobtitle" id="custom-jobtitle" contenteditable="true" spellcheck="false">Library Services</div>
           </div>
           <div class="back-contact-row">
@@ -1243,7 +1243,7 @@ function cardBackHTML() {
       </div>
     </div>
     <div class="back-identity">
-      <div class="back-name">Firstname Lastname PhD</div>
+      <div class="back-name">Firstname Lastname IV MLIS, Ed.D</div>
       <div class="back-jobtitle">Library Services</div>
     </div>
     <div class="back-contact-row">
@@ -1773,7 +1773,7 @@ function getCardText() {
 // ═══ Save button ═══
 document.getElementById('btn-save').addEventListener('click', () => {
   const text = getCardText();
-  const suggested = text.personName && text.personName !== 'Firstname Lastname PhD' ? text.personName : generateSchemeName(state);
+  const suggested = text.personName && text.personName !== 'Firstname Lastname IV MLIS, Ed.D' ? text.personName : generateSchemeName(state);
   const name = prompt('Name this card:', suggested);
   if (!name || !name.trim()) return;
 
