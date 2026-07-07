@@ -112,9 +112,9 @@
       z-index: 1;
     }
     .front-channels .contact-item { align-items: center; }
-    .front-channels .contact-icon { margin-top: 0; }
+    .front-channels .contact-icon { width: 22px; height: 22px; margin-top: 0; flex-shrink: 0; }
     .front-channels .contact-text {
-      font-size: 1.6rem;   /* match the back-face address / contact text */
+      font-size: 1.6rem;   /* front channels read larger than the back contact column */
       white-space: nowrap;
     }
 
@@ -140,40 +140,46 @@
     }
     .wave-bottom svg { display: block; width: 100%; height: 100%; }
 
-    /* ── BACK FACE (header · name · contact · wave) ── */
+    /* ── BACK FACE (bar · logo · identity | contact · wave) ── */
     .card-back {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      padding: 2.1rem 2.7rem 0;
     }
 
-    /* Header row: logo · address */
-    .back-header {
-      display: flex;
-      align-items: center;
-      gap: 2.4rem;
+    /* Gradient bar at top — extends into bleed via ::before, clipped by overflow:hidden */
+    .back-bar {
+      height: 6px;
+      position: relative;
+    }
+    .back-bar::before {
+      content: '';
+      position: absolute;
+      top: -25px;
+      left: -25px;
+      right: -25px;
+      bottom: 0;
+      background: inherit;
     }
 
     .back-logo-small {
-      height: 5.3rem;   /* between the two-line address height and the prior larger logo */
-      width: auto;
-      flex-shrink: 0;
+      position: absolute;
+      top: calc(6px + 2.7rem);
+      left: 1.5rem;
+      width: 214.5px;
+      z-index: 3;
     }
 
-    .back-address {
-      display: flex;
-      align-items: flex-start;
-    }
-
-    /* Name + title block */
+    /* Name + title block: lower-left, stops short of the contact column (which starts at ~347px) */
     .back-identity {
-      margin-top: 1.6rem;
+      position: absolute;
+      bottom: calc(24% - 4px);
+      left: 2rem;
+      width: 300px;
+      z-index: 2;
     }
 
     .back-name {
       font-family: 'DM Serif Display', serif;
-      font-size: 2.5rem;
+      font-size: 1.93rem;   /* = autoScaleName MAX: the size the longest name in the org settles to */
       line-height: 1.15;
       white-space: nowrap;   /* names always stay on one line (JS shrinks font to fit) */
       overflow: hidden;
@@ -190,7 +196,7 @@
     .back-jobtitle {
       font-family: 'Libre Franklin', sans-serif;
       font-weight: 400;
-      font-size: 1.6rem;   /* same size as the address / contact text */
+      font-size: 1.42rem;   /* same size as the address / contact text */
       margin-top: 0.4rem;
       letter-spacing: 0.02em;
       outline: none;
@@ -203,12 +209,16 @@
       opacity: 0.35;
     }
 
-    /* Contact column: phone, then email beneath it (both left-aligned) */
-    .back-contact-row {
+    /* Contact column: address · phone · email, bottom-aligned with the identity block */
+    .back-contact {
+      position: absolute;
+      bottom: calc(24% - 4px - 2rem);
+      right: calc(1% + 1rem);
+      width: calc(38% + 4rem);
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
-      margin-top: 1.9rem;
+      gap: 1.05rem;
+      z-index: 2;
     }
 
     .contact-item {
@@ -217,10 +227,20 @@
       gap: 0.6rem;
     }
 
+    .back-contact .contact-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+    }
+
     .contact-text {
       font-family: 'News Cycle', sans-serif;
-      font-size: 1.6rem;   /* a touch larger for legibility at print size */
+      font-size: 1.42rem;   /* ~8.2pt at actual print size (front channels stay at 1.6rem) */
       line-height: 1.2;
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .contact-label {
@@ -231,6 +251,7 @@
       outline: none;
       display: inline-block;
       min-width: 60px;
+      max-width: 100%;
     }
     .editable-contact:focus {
       border-bottom: 2px solid rgba(0,0,0,0.15);
@@ -289,14 +310,13 @@
       .front-channels .contact-icon { width: 3.35vw; height: 3.35vw; }
       .front-channels .contact-item { gap: 1.4vw; }
       .front-channels .social-icons { gap: 0.7vw; }
-      .card-back { padding: 3vw 4.6vw 0; }
-      .back-header { gap: 4vw; }
-      .back-logo-small { height: 11vw; width: auto; }
-      .back-identity { margin-top: 3vw; }
+      .back-logo-small { width: 24vw; top: calc(6px + 4vw); left: 4.6vw; }
+      .back-identity { left: 4.6vw; width: 49vw; }
+      .back-contact { width: 38vw; right: 1vw; gap: 1.6vw; }
+      .back-contact .contact-icon { width: 2.8vw; height: 2.8vw; margin-top: 0.4vw; }
       .back-name { font-size: 5vw; }
       .back-jobtitle { font-size: 3.35vw; margin-top: 0.7vw; }
-      .back-contact-row { gap: 1.2vw; margin-top: 3.6vw; }
-      .contact-text { font-size: 3.35vw; }
+      .contact-text { font-size: 3vw; }
       .back-footer { height: 6vw; }
     }
 
@@ -860,22 +880,24 @@
       </div>
       <div class="card-column">
         <div class="card-face card-back" id="custom-back">
-          <div class="back-header">
-            <img class="back-logo-small" id="custom-back-logo" src="BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/San Gorgonio Blue.png" alt="">
-            <div class="back-address">
-              <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
-            </div>
-          </div>
+          <div class="back-bar" id="custom-bar"></div>
+          <img class="back-logo-small" id="custom-back-logo" src="BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/San Gorgonio Blue.png" alt="">
           <div class="back-identity" id="custom-identity">
-            <div class="back-name" id="custom-name" contenteditable="true" spellcheck="false">Firstname Lastname IV MLIS, Ed.D</div>
+            <div class="back-name" id="custom-name" contenteditable="true" spellcheck="false">Kelly Van Valkenburg</div>
             <div class="back-jobtitle" id="custom-jobtitle" contenteditable="true" spellcheck="false">Library Services</div>
           </div>
-          <div class="back-contact-row">
+          <div class="back-contact">
             <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
+            </div>
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
               <div class="contact-text"><span class="editable-contact" id="custom-phone" contenteditable="true" spellcheck="false">(951) 845-1357</span></div>
             </div>
             <div class="contact-item contact-email" id="custom-email-item">
-              <div class="contact-text"><span class="editable-contact" id="custom-email" contenteditable="true" spellcheck="false">info@myBLD.org</span></div>
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <div class="contact-text"><span class="editable-contact" id="custom-email" contenteditable="true" spellcheck="false">kelly.vanvalkenburg@bld.lib.ca.us</span></div>
             </div>
           </div>
           <div class="back-footer">
@@ -1097,12 +1119,16 @@ function applyState() {
   document.getElementById('custom-wave1').setAttribute('fill', isDark ? `rgba(200,180,155,${waveAlpha})` : `${fc1}11`);
   document.getElementById('custom-wave2').setAttribute('fill', isDark ? `rgba(200,180,155,${waveAlpha * 0.7})` : `${fc1}09`);
 
+  // Back bar
+  document.getElementById('custom-bar').style.background = `linear-gradient(90deg, ${bc1}, ${lighten(bc1,40)}, ${bc2}, ${lighten(bc2,40)}, ${bc1})`;
+
   // Back text
   document.getElementById('custom-name').style.color = txt;
   document.getElementById('custom-jobtitle').style.color = bc1;
 
-  // Contact text (address, phone, email)
+  // Contact text + icons (address, phone, email)
   document.querySelectorAll('#custom-back .contact-text').forEach(el => el.style.color = txt);
+  document.querySelectorAll('#custom-back .contact-icon').forEach(el => el.style.color = bc1);
 
   // Back + footer
   document.getElementById('custom-back').style.background = isDark ? '#FDFAF5' : '#FDFCFA';
@@ -1117,10 +1143,12 @@ function applyState() {
 }
 
 // ═══ Auto-scale name to fit container ═══
-// The name always stays on a single line — shrink the font to fit the (widened)
-// name column so even long names read large and prominent.
+// The name always stays on a single line — shrink the font to fit the name
+// column so even long names read large and prominent. MAX is calibrated to the
+// size "Kelly Van Valkenburg" (the longest name in the org) settles to, so no
+// shorter name ever renders bigger than hers.
 function autoScaleName(el) {
-  const MAX = 2.5, MIN = 1.1, STEP = 0.05;
+  const MAX = 1.93, MIN = 1.1, STEP = 0.05;
   const SLOP = 2; // contenteditable measurements run ~2px over
   el.style.maxHeight = '';
   el.style.whiteSpace = 'nowrap';
@@ -1181,12 +1209,16 @@ function applyStateToCard(cardEl, s, text) {
   const backLogoFile = LOGO_MAP[s.backLogo] || LOGO_MAP[s.frontLogo];
   if (backLogoFile) cardEl.querySelector('.saved-flip-back .back-logo-small').src = logoBase + backLogoFile + '.png';
 
+  // Back bar
+  cardEl.querySelector('.saved-flip-back .back-bar').style.background = `linear-gradient(90deg, ${bc1}, ${lighten(bc1,40)}, ${bc2}, ${lighten(bc2,40)}, ${bc1})`;
+
   // Back text
   cardEl.querySelector('.saved-flip-back .back-name').style.color = txt;
   cardEl.querySelector('.saved-flip-back .back-jobtitle').style.color = bc1;
 
-  // Contact text
+  // Contact text + icons
   cardEl.querySelectorAll('.saved-flip-back .contact-text').forEach(el => el.style.color = txt);
+  cardEl.querySelectorAll('.saved-flip-back .contact-icon').forEach(el => el.style.color = bc1);
 
   // Footer
   cardEl.querySelector('.saved-flip-back .footer-wave-path').setAttribute('fill', ftr);
@@ -1197,7 +1229,7 @@ function applyStateToCard(cardEl, s, text) {
     if (text.personName) cardEl.querySelector('.saved-flip-back .back-name').textContent = text.personName;
     if (text.jobTitle) cardEl.querySelector('.saved-flip-back .back-jobtitle').textContent = text.jobTitle;
     const emailEl = cardEl.querySelector('.saved-flip-back .saved-email');
-    if (emailEl) emailEl.textContent = text.email || 'info@myBLD.org';
+    if (emailEl) emailEl.textContent = text.email || 'kelly.vanvalkenburg@bld.lib.ca.us';
     const phoneEl = cardEl.querySelector('.saved-flip-back .saved-phone');
     if (phoneEl) phoneEl.textContent = (text.phone || '').trim() || '(951) 845-1357';
   }
@@ -1236,22 +1268,24 @@ function cardFrontHTML() {
 }
 
 function cardBackHTML() {
-  return `<div class="back-header">
-      <img class="back-logo-small" src="${logoBase}San Gorgonio Blue.png" alt="">
-      <div class="back-address">
-        <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
-      </div>
-    </div>
+  return `<div class="back-bar"></div>
+    <img class="back-logo-small" src="${logoBase}San Gorgonio Blue.png" alt="">
     <div class="back-identity">
-      <div class="back-name">Firstname Lastname IV MLIS, Ed.D</div>
+      <div class="back-name">Kelly Van Valkenburg</div>
       <div class="back-jobtitle">Library Services</div>
     </div>
-    <div class="back-contact-row">
+    <div class="back-contact">
       <div class="contact-item">
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="contact-text">125 E. Eighth Street<br>Beaumont, CA 92223</div>
+      </div>
+      <div class="contact-item">
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         <div class="contact-text"><span class="saved-phone">(951) 845-1357</span></div>
       </div>
       <div class="contact-item contact-email">
-        <div class="contact-text"><span class="saved-email">info@myBLD.org</span></div>
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="contact-text"><span class="saved-email">kelly.vanvalkenburg@bld.lib.ca.us</span></div>
       </div>
     </div>
     <div class="back-footer">
@@ -1773,7 +1807,7 @@ function getCardText() {
 // ═══ Save button ═══
 document.getElementById('btn-save').addEventListener('click', () => {
   const text = getCardText();
-  const suggested = text.personName && text.personName !== 'Firstname Lastname IV MLIS, Ed.D' ? text.personName : generateSchemeName(state);
+  const suggested = text.personName && text.personName !== 'Kelly Van Valkenburg' ? text.personName : generateSchemeName(state);
   const name = prompt('Name this card:', suggested);
   if (!name || !name.trim()) return;
 
@@ -1836,7 +1870,7 @@ document.getElementById('btn-pdf').addEventListener('click', async () => {
       const clonePhone = clone.querySelector('#custom-phone');
       if (clonePhone && !clonePhone.textContent.trim()) clonePhone.textContent = '(951) 845-1357';
       const cloneEmail = clone.querySelector('#custom-email');
-      if (cloneEmail && !cloneEmail.textContent.trim()) cloneEmail.textContent = 'info@myBLD.org';
+      if (cloneEmail && !cloneEmail.textContent.trim()) cloneEmail.textContent = 'kelly.vanvalkenburg@bld.lib.ca.us';
       clone.style.position = 'absolute';
       clone.style.left = BLEED_PX + 'px';
       clone.style.top = BLEED_PX + 'px';

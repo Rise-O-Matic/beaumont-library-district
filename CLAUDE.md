@@ -16,11 +16,11 @@ External CDN libraries: `html2canvas` (card-to-image capture) and `jsPDF` (print
 
 ## Architecture
 
-Everything lives in **index.html** (~1879 lines total):
+Everything lives in **index.html** (~2064 lines total):
 
 1. **CSS** (~760 lines): Card system (700x400 at 1.75:1 ratio), builder UI (pickers, buttons, export dropdown), saved section (CSS 3D flip cards in auto-fill grid), responsive breakpoints at 1480px/740px/380px, print styles
 2. **HTML** (~92 lines): Builder preview (front + back card with `id="custom-*"` elements), picker containers under each card, action buttons, saved-section grid with flip-all/import/export controls
-3. **JavaScript** (~1020 lines): Brand palette, background options, WCAG contrast checking, state management, picker UI construction, localStorage persistence, URL hash sharing, scheme name generator, PDF export with crop marks
+3. **JavaScript** (~1200 lines): Brand palette, background options, WCAG contrast checking, state management, picker UI construction, localStorage persistence, URL hash sharing, scheme name generator, PDF export with crop marks
 
 ### Key Patterns
 
@@ -30,7 +30,7 @@ Everything lives in **index.html** (~1879 lines total):
 - Saved cards render at full 700x400 size then `transform: scale(0.5)` inside 350x200 containers
 - Logo PNGs live in `BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/` -- the path has spaces and parentheses, always use the `logoBase` variable
 - `LOGO_MAP` translates brand color names to logo filenames (they don't always match, e.g., `'Lavender Purple'` maps to `'Lavender Fields Purple'`)
-- The Name and Job Title fields on the back face are `contenteditable` with auto-scaling (max 2 lines, font shrinks from 2.1rem to 0.8rem)
+- The Name field on the back face is `contenteditable`; it always stays on one line and `autoScaleName()` shrinks its font from 1.93rem down to 1.1rem to fit the fixed-width identity column. The 1.93rem MAX is calibrated: it's the size the placeholder "Kelly Van Valkenburg" (the longest name in the org) settles to, so no shorter name ever renders larger than hers
 
 ### WCAG Contrast System
 
@@ -44,7 +44,7 @@ When `frontBg` changes, all picker dropdowns are rebuilt via `refreshSwatchUI()`
 
 ### Dark Background Behavior
 
-When `BG_OPTIONS[frontBg].dark` is true: front logo forces `White.png` (picker locked/disabled), tagline uses `lighten(c2, 80)`, and wave SVGs use different alpha values. The back face always uses a light background (`#FDFAF5` for dark themes, `#FDFCFA` for light).
+When `BG_OPTIONS[frontBg].dark` is true: front logo forces `White.png` (picker locked/disabled) and wave SVGs use different alpha values. The back face always uses a light background (`#FDFAF5` for dark themes, `#FDFCFA` for light).
 
 ### State Model
 
@@ -57,7 +57,9 @@ When `BG_OPTIONS[frontBg].dark` is true: front logo forces `White.png` (picker l
 }
 ```
 
-9 keys total. Front and back have independent pickers. `frontAccent1` drives: accent strip primary, divider rule. `frontAccent2` drives: tagline text. `backAccent1` drives: top bar, job title, icons, divider. `backAccent2` drives: contact labels. `backText` drives: name, contact text. `backFooter` drives: footer wave fill.
+9 keys total. Front and back have independent pickers. `frontAccent1` drives: accent strip gradient primary, bottom wave tint. `frontAccent2` drives: accent strip gradient second hue, front channels (web/social) text. `backAccent1` drives: back top-bar gradient primary, job title, contact icons. `backAccent2` drives: back top-bar gradient second hue. `backText` drives: name, contact text. `backFooter` drives: footer wave fill.
+
+The back face is a two-column layout: logo top-left, name + job title lower-left (`.back-identity`, fixed 366px wide — maximized for the name), and an iconed contact column (address / phone / email) on the right (`.back-contact`, 1.42rem text, one point smaller than the front channels). Both blocks are absolutely positioned and share the same bottom anchor so the email row bottom-aligns with the job title.
 
 ### Persistence
 
