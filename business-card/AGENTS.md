@@ -26,8 +26,8 @@ Everything lives in **index.html** (~1879 lines total):
 - **Saved cards** use class-based selectors scoped to each card element (e.g., `cardEl.querySelector('.saved-flip-front .accent-strip')`) -- multiple cards coexist
 - These are two parallel rendering paths: `applyState()` updates the builder preview via `getElementById`, `applyStateToCard(cardEl, s)` updates a saved card via `querySelector` within that card's DOM subtree
 - Saved cards render at full 700x400 size then `transform: scale(0.5)` inside 350x200 containers
-- Logo PNGs live in `BLD Logo Suite (2)/BLD Logo Suite/Horizontal/PNG Transparent Background/` -- the path has spaces and parentheses, always use the `logoBase` variable
-- `LOGO_MAP` translates brand color names to logo filenames (they don't always match, e.g., `'Lavender Purple'` maps to `'Lavender Fields Purple'`)
+- Logo PNGs live in the parent repo's shared assets at `../assets/logos/horizontal-png/` (lowercase-hyphenated filenames, e.g. `san-gorgonio-blue.png`) -- always use the `logoBase` variable
+- `LOGO_MAP` translates brand color names to logo filenames (they don't always match, e.g., `'Lavender Purple'` maps to `'lavender-fields-purple'`)
 - The Name and Job Title fields on the back face are `contenteditable` with auto-scaling (max 2 lines, font shrinks from 2.1rem to 0.8rem)
 
 ### WCAG Contrast System
