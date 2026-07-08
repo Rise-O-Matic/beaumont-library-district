@@ -124,7 +124,7 @@
       top: -25px;
       left: -25px;
       right: -25px;
-      height: 31px;
+      height: calc(31px + 1rem);
       z-index: 2;
     }
 
@@ -147,7 +147,7 @@
 
     /* Gradient bar at top — extends into bleed via ::before, clipped by overflow:hidden */
     .back-bar {
-      height: calc(6px + 2rem);
+      height: calc(6px + 1rem);
       position: relative;
     }
     .back-bar::before {
