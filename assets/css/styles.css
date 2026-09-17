@@ -139,11 +139,19 @@ a:hover { text-decoration-color: var(--california-poppy); color: var(--californi
 
 /* -- Cover ----------------------------------------------- */
 .cover {
-  max-width: 1200px;
-  margin: 0 auto;
   padding: clamp(3rem, 10vw, 8rem) clamp(1.5rem, 4vw, 3rem);
   text-align: center;
 }
+.cover-logo {
+  display: block;
+  width: clamp(220px, 28vw, 360px);
+  height: auto;
+  margin: 0 auto 2.5rem;
+}
+
+/* Alternating section backgrounds: white / desert sand bands */
+main > section:nth-of-type(odd)  { background: #fff; }
+main > section:nth-of-type(even) { background: var(--ground); }
 .cover-rule {
   border-top: 1px solid var(--rule-strong);
   width: min(360px, 50%);
@@ -208,10 +216,9 @@ a:hover { text-decoration-color: var(--california-poppy); color: var(--californi
 
 /* -- Contents -------------------------------------------- */
 .contents {
-  max-width: 900px;
-  margin: 4rem auto;
-  padding: 0 clamp(1.5rem, 4vw, 3rem);
+  padding: 4rem clamp(1.5rem, 4vw, 3rem);
 }
+.contents > * { max-width: 900px; margin-left: auto; margin-right: auto; }
 .section-heading {
   font-family: var(--serif);
   font-weight: 400;
@@ -264,8 +271,6 @@ a:hover { text-decoration-color: var(--california-poppy); color: var(--californi
 
 /* -- Prose Sections ------------------------------------- */
 .prose {
-  max-width: 1100px;
-  margin: 0 auto;
   padding: 5rem clamp(1.5rem, 4vw, 3rem) 4rem;
   border-top: 1px solid var(--rule);
 }
@@ -550,11 +555,13 @@ figcaption { font-size: 0.95rem; }
 }
 
 .swatch-data {
+  --ink: var(--san-gorgonio);
   margin: 0;
   padding: 1rem 1.25rem 1.25rem;
   display: grid;
   gap: 0.4rem;
   font-size: 0.85rem;
+  color: var(--ink);
 }
 .swatch-data > div {
   display: grid;
